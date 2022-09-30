@@ -1,4 +1,5 @@
 const http = require('http'); // (1)
+const { isReadable } = require('stream');
 const server = http.createServer();
 
 const users = [ // (2)
@@ -52,10 +53,12 @@ const httpRequestListener = function (request, response) {
 					name : user.name,
 					email: user.email,
 					password : user.password
-				})
-
+				})   
 				response.end(JSON.stringify({message : 'ok!'})); // (9)
 			})
+    } else if(method === 'POST'){
+        response.writeHead(200,{'Content-Type' : 'application/json'});
+        response.end(JSON.stringify({message : 'postCreated'}))
     }
   }
 };
